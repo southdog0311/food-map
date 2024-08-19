@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地點詳細資訊</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 地點詳細資訊 -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card mb-4">
+                    {% if place.photo_url %}
+                    <img src="{{ place.photo_url }}" class="card-img-top" alt="{{ place.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ place.name }}</h5>
+                        <p class="card-text">{{ place.address }}</p>
+                        <p class="card-text"><small class="text-muted">發佈日期: {{ place.pub_date }}</small></p>
+                        <p class="card-text">電話號碼: {{ place.phone_number }}</p>
+                        <p class="card-text">網站: <a href="{{ place.website }}" target="_blank">{{ place.website }}</a></p>
+                        <p class="card-text">營業時間: {{ place.opening_time }} - {{ place.closing_time }}</p>
+                        <p class="card-text">菜系類型: {{ place.cuisine_type }}</p>
+                        <p class="card-text">菜單項目: {{ place.menu_items }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入 Bootstrap JS 和依賴 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
