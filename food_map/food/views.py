@@ -1,9 +1,8 @@
 from django.shortcuts import get_object_or_404, render
-from .models import Place
-
+from .models import Place, Tag, TagManagement
+from django.views.generic import ListView
 
 def index(request):
-    # return HttpResponse("Hello food!")
     places = Place.objects.all()
     return render(request, 'food/index.html', {'places': places})
 
@@ -17,7 +16,6 @@ def search(request):
     cuisine_type = request.GET.get('cuisine_type')
     address = request.GET.get('address')
 
-    # 構建搜尋查詢
     search_results = Place.objects.all()
 
     if query:
@@ -37,9 +35,12 @@ def search(request):
     }
     return render(request, 'food/search_results.html', context)
 
+class TagListView(ListView):
+    model = Tag
+    template_name = 'food/tag_list.html'
+    context_object_name = 'tags'
 
-
-
-'''def place_list(request):
-    places = Place.objects.all()
-    return render(request, 'place_list.html', {'places': places})'''
+class TagManagementListView(ListView):
+    model = TagManagement
+    template_name = 'food/tag_management_list.html'
+    context_object_name = 'tag_managements'
