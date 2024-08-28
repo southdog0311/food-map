@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜尋結果 - FoodMap</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">FoodMap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">首頁 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">關於我們</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">聯絡我們</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 搜尋結果列表 -->
+    <div class="container">
+        <h2>搜尋結果</h2>
+        <div class="row">
+            {% if places %}
+                {% for place in places %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        {% if place.photo_url %}
+                        <img src="{{ place.photo_url }}" class="card-img-top" alt="{{ place.name }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{% url 'place_detail' place.pk %}">{{ place.name }}</a></h5>
+                            <p class="card-text">{{ place.address }}</p>
+                            <p class="card-text">電話號碼: {{ place.phone_number }}</p>
+                            <p class="card-text">網站: <a href="{{ place.website }}" target="_blank">{{ place.website }}</a></p>
+                            <p class="card-text">營業時間: {{ place.opening_time }} - {{ place.closing_time }}</p>
+                            <p class="card-text">菜系類型: {{ place.cuisine_type }}</p>
+                            <p class="card-text">菜單項目: {{ place.menu_items }}</p>
+                            <p class="card-text"><small class="text-muted">發佈日期: {{ place.pub_date }}</small></p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>找不到符合條件的地點。</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 引入 Bootstrap  -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
