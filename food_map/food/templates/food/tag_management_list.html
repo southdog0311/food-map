@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>標籤列表</title>
+    <title>標籤管理列表</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-4">標籤列表</h1>
+        <h1 class="mt-4">標籤管理列表</h1>
         <ul class="list-group">
-            {% for tag in tags %}
-            <li class="list-group-item">{{ tag.name }} - {{ tag.Rstyle }}</li>
+            {% for tag_management in tag_managements %}
+            <li class="list-group-item">{{ tag_management.place.name }} - {{ tag_management.tag.name }}</li>
             {% endfor %}
         </ul>
     </div>

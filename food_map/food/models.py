@@ -7,7 +7,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    class Meta:
+        ordering = ['name']
 
 
 class Place(models.Model):
@@ -26,12 +28,18 @@ class Place(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        ordering = ['name']
+    
 
 class TagManagement(models.Model):
     place = models.ForeignKey(Place, on_delete=models.SET_NULL, null=True)
     tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.name
-
-
+        place_name = self.place.name if self.place else 'Unknown Place'
+        tag_name = self.tag.name if self.tag else 'Unknown Tag'
+        return f'{place_name} - {tag_name}'
+    
+    class Meta:
+        ordering = ['place']
