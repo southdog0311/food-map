@@ -5,18 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>搜尋結果 - FoodMap</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .fixed-height-img {
+            width: 100%; /* 寬度自適應 */
+            height: 200px; /* 固定高度 */
+            object-fit: cover; /* 保持圖片比例並裁剪 */
+        }
+    </style>
 </head>
 <body>
     <!-- 導航欄 -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">FoodMap</a>
+        <a class="navbar-brand" href="{% url 'index' %}">FoodMap</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">首頁 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'index' %}">首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">關於我們</a>
@@ -37,7 +44,7 @@
                 <div class="col-md-4">
                     <div class="card mb-4">
                         {% if place.photo_url %}
-                        <img src="{{ place.photo_url }}" class="card-img-top" alt="{{ place.name }}">
+                        <img src="{{ place.photo_url }}" class="card-img-top fixed-height-img" alt="{{ place.name }}">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title"><a href="{% url 'place_detail' place.pk %}">{{ place.name }}</a></h5>
@@ -48,6 +55,12 @@
                             <p class="card-text">菜系類型: {{ place.cuisine_type }}</p>
                             <p class="card-text">菜單項目: {{ place.menu_items }}</p>
                             <p class="card-text"><small class="text-muted">發佈日期: {{ place.pub_date }}</small></p>
+                            <p class="card-text">
+                                標籤:
+                                {% for tag in place.tags.all %}
+                                    <span class="badge badge-primary">{{ tag.name }}</span>
+                                {% endfor %}
+                            </p>
                         </div>
                     </div>
                 </div>
