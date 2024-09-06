@@ -1,0 +1,142 @@
+[
+{
+  "model": "food.tag",
+  "pk": 2,
+  "fields": {
+    "name": "std",
+    "Rstyle": "1"
+  }
+},
+{
+  "model": "food.tag",
+  "pk": 3,
+  "fields": {
+    "name": "zxc",
+    "Rstyle": "2"
+  }
+},
+{
+  "model": "food.tag",
+  "pk": 4,
+  "fields": {
+    "name": "test",
+    "Rstyle": "3"
+  }
+},
+{
+  "model": "food.place",
+  "pk": 2,
+  "fields": {
+    "name": "fgh",
+    "address": "1234566",
+    "pub_date": "2024-08-14T06:42:17Z",
+    "phone_number": "0902306639",
+    "website": "https://www.youtube.com/",
+    "opening_time": "04:02:15",
+    "closing_time": "04:02:16",
+    "cuisine_type": "qwe",
+    "menu_items": "zxcvb",
+    "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaWpVt3lngium0OtALuv5QcfF5_2aWXHmCnQ&s",
+    "tags": [
+      4
+    ]
+  }
+},
+{
+  "model": "food.place",
+  "pk": 3,
+  "fields": {
+    "name": "std",
+    "address": "123",
+    "pub_date": "2024-08-16T02:42:05Z",
+    "phone_number": "123446",
+    "website": "https://www.youtube.com/",
+    "opening_time": "02:50:28",
+    "closing_time": "02:50:29",
+    "cuisine_type": "qwe",
+    "menu_items": "ss",
+    "photo_url": "https://www.ambassador-hotels.com/images/files/taipei/dining/%E5%9C%8B%E8%B3%93%E4%B8%AD%E9%A4%90%E5%BB%B3(%E9%81%BC%E5%AF%A7)/%E9%81%BC%E5%AF%A7-%E5%9C%8B%E8%B3%93%E4%B8%AD%E9%A4%90%E5%BB%B3-%E7%92%B0%E5%A2%83%E7%85%A7/221026AMB_12676.jpg",
+    "tags": [
+      2
+    ]
+  }
+},
+{
+  "model": "food.place",
+  "pk": 4,
+  "fields": {
+    "name": "asd",
+    "address": "sdf",
+    "pub_date": "2024-08-16T03:03:14Z",
+    "phone_number": "adfdff",
+    "website": "https://www.twitch.tv/settings/profile",
+    "opening_time": "03:03:04",
+    "closing_time": "03:03:05",
+    "cuisine_type": "qwe",
+    "menu_items": "dcadc",
+    "photo_url": "https://image-cdn.learnin.tw/bnextmedia/image/album/2023-02/img-1676534953-28283.jpg?w=600&output=webp",
+    "tags": [
+      4
+    ]
+  }
+},
+{
+  "model": "food.place",
+  "pk": 5,
+  "fields": {
+    "name": "qwef",
+    "address": "qwert",
+    "pub_date": "2024-08-30T02:50:45Z",
+    "phone_number": "090233456",
+    "website": "https://www.youtube.com/",
+    "opening_time": "02:50:54",
+    "closing_time": "02:50:55",
+    "cuisine_type": "qwe",
+    "menu_items": "1235",
+    "photo_url": "https://media.gq.com.tw/photos/6465cee2993e6e6a1e65c467/16:9/w_1920,c_limit/3.jpg",
+    "tags": [
+      2
+    ]
+  }
+},
+{
+  "model": "food.tagmanagement",
+  "pk": 1,
+  "fields": {
+    "place": 5,
+    "tag": 2
+  }
+},
+{
+  "model": "food.tagmanagement",
+  "pk": 2,
+  "fields": {
+    "place": 4,
+    "tag": 4
+  }
+},
+{
+  "model": "food.tagmanagement",
+  "pk": 3,
+  "fields": {
+    "place": 2,
+    "tag": 4
+  }
+},
+{
+  "model": "food.tagmanagement",
+  "pk": 4,
+  "fields": {
+    "place": 4,
+    "tag": 3
+  }
+},
+{
+  "model": "food.tagmanagement",
+  "pk": 5,
+  "fields": {
+    "place": 5,
+    "tag": 4
+  }
+}
+]

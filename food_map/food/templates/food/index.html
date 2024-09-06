@@ -11,6 +11,9 @@
             height: 200px; /* 固定高度 */
             object-fit: cover; /* 保持圖片比例並裁剪 */
         }
+        .badge-primary {
+            background-color: #007bff;
+        }
     </style>
 </head>
 <body>
@@ -30,6 +33,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">聯絡我們</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">標籤管理</a>
                 </li>
             </ul>
         </div>
@@ -87,6 +93,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="searchPlaceForm" action="/search" method="get">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label for="search">搜尋</label>
                             <input type="text" class="form-control" id="search" name="search" placeholder="輸入關鍵字">
