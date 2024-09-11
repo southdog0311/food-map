@@ -1,5 +1,9 @@
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
 from . import views
+from food.api import api
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -7,4 +11,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('tags/', views.TagListView.as_view(), name='tag-list'),
     path('tag-management/', views.TagManagementListView.as_view(), name='tag-management-list'),
-]
+    path('food-admin/', admin.site.urls),
+    # path('food/', include('food.urls')),  # 暫時注釋掉
+    path("api/", api.urls),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
