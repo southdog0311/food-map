@@ -1,16 +1,20 @@
 from django.shortcuts import get_object_or_404, render
 from .models import Place, Tag, TagManagement
 from django.views.generic import ListView
+from django.http import JsonResponse
 
+# 首頁，顯示所有餐廳和標籤
 def index(request):
     places = Place.objects.all()
-    tags = Tag.objects.all()  # 傳遞標籤列表給模板
+    tags = Tag.objects.all() 
     return render(request, 'food/index.html', {'places': places, 'tags': tags})
 
+# 餐廳詳細頁面
 def place_detail(request, place_id):
     place = get_object_or_404(Place, pk=place_id)
     return render(request, 'food/place_detail.html', {'place': place})
 
+# 搜尋功能
 def search(request):
     query = request.GET.get('search')
     restaurant_name = request.GET.get('restaurant_name')
@@ -20,7 +24,7 @@ def search(request):
 
     search_results = Place.objects.all()
 
-    # 每個篩選條件獨立應用，允許條件為空
+    # 篩選條件應用
     if query:
         search_results = search_results.filter(name__icontains=query)
 
@@ -42,11 +46,26 @@ def search(request):
     }
     return render(request, 'food/search_results.html', context)
 
+# API：獲取所有餐廳的列表
+def place_list(request):
+    places = Place.objects.all()
+    return JsonResponse({'places': list(places.values())})
+
+# API：獲取單個餐廳的詳細資訊
+def place_detail_api(request, place_id):
+    place = Place.objects.filter(pk=place_id).values()
+    if place.exists():
+        return JsonResponse({'place': list(place)}, safe=False)
+    else:
+        return JsonResponse({'error': 'Place not found'}, status=404)
+
+# 標籤列表視圖
 class TagListView(ListView):
     model = Tag
     template_name = 'food/tag_list.html'
     context_object_name = 'tags'
 
+# 標籤管理列表視圖
 class TagManagementListView(ListView):
     model = TagManagement
     template_name = 'food/tag_management_list.html'

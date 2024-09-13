@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from . import views
-from food.api import api
+from food.api import api  
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('tags/', views.TagListView.as_view(), name='tag-list'),
     path('tag-management/', views.TagManagementListView.as_view(), name='tag-management-list'),
     path('food-admin/', admin.site.urls),
-    # path('food/', include('food.urls')),  # 暫時注釋掉
-    path("api/", api.urls),
+    path('api/places/', views.place_list, name='place_list'),
+    path('api/places/<int:place_id>/', views.place_detail_api, name='place_detail_api'),
+    path('api/', api.urls),  
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
