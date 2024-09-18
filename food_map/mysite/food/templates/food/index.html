@@ -7,12 +7,21 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .fixed-height-img {
-            width: 100%; /* 寬度自適應 */
-            height: 200px; /* 固定高度 */
-            object-fit: cover; /* 保持圖片比例並裁剪 */
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
         .badge-primary {
             background-color: #007bff;
+        }
+        .view-count {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -53,26 +62,29 @@
     <!-- 地點列表 -->
     <div class="container">
         <div class="row" id="places-list">
-            {% for place in places %}
+            {% for place_with_hit in places_with_hits %}
             <div class="col-md-4">
                 <div class="card mb-4">
-                    {% if place.photo_url %}
-                    <img src="{{ place.photo_url }}" class="card-img-top fixed-height-img" alt="{{ place.name }}">
+                    {% if place_with_hit.place.photo_url %}
+                    <img src="{{ place_with_hit.place.photo_url }}" class="card-img-top fixed-height-img" alt="{{ place_with_hit.place.name }}">
                     {% endif %}
                     <div class="card-body">
-                        <h5 class="card-title"><a href="{% url 'place_detail' place.pk %}">{{ place.name }}</a></h5>
-                        <p class="card-text">{{ place.address }}</p>
-                        <p class="card-text">電話號碼: {{ place.phone_number }}</p>
-                        <p class="card-text">網站: <a href="{{ place.website }}" target="_blank">{{ place.website }}</a></p>
-                        <p class="card-text">營業時間: {{ place.opening_time }} - {{ place.closing_time }}</p>
-                        <p class="card-text">菜系類型: {{ place.cuisine_type }}</p>
-                        <p class="card-text">菜單項目: {{ place.menu_items }}</p>
-                        <p class="card-text"><small class="text-muted">發佈日期: {{ place.pub_date }}</small></p>
+                        <h5 class="card-title"><a href="{% url 'place_detail' place_with_hit.place.pk %}">{{ place_with_hit.place.name }}</a></h5>
+                        <p class="card-text">{{ place_with_hit.place.address }}</p>
+                        <p class="card-text">電話號碼: {{ place_with_hit.place.phone_number }}</p>
+                        <p class="card-text">網站: <a href="{{ place_with_hit.place.website }}" target="_blank">{{ place_with_hit.place.website }}</a></p>
+                        <p class="card-text">營業時間: {{ place_with_hit.place.opening_time }} - {{ place_with_hit.place.closing_time }}</p>
+                        <p class="card-text">菜系類型: {{ place_with_hit.place.cuisine_type }}</p>
+                        <p class="card-text">菜單項目: {{ place_with_hit.place.menu_items }}</p>
+                        <p class="card-text"><small class="text-muted">發佈日期: {{ place_with_hit.place.pub_date }}</small></p>
                         <p class="card-text">
                             標籤:
-                            {% for tag in place.tags.all %}
+                            {% for tag in place_with_hit.place.tags.all %}
                                 <span class="badge badge-primary">{{ tag.name }}</span>
                             {% endfor %}
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">瀏覽人次: {{ place_with_hit.hit_count }}</small>
                         </p>
                     </div>
                 </div>
@@ -115,6 +127,11 @@
         </div>
     </div>
 
+    <!-- 顯示總瀏覽人次 -->
+    <div class="view-count">
+        總瀏覽人次: {{ total_hit_count }}
+    </div>
+
     <!-- Fetch API 更新資料 -->
     <script>
         function fetchPlaces() {
@@ -155,13 +172,15 @@
                     placesList.insertAdjacentHTML('beforeend', placeCard);
                 });
             })
-            .catch(error => console.error('Error fetching places:', error));
+            .catch(error => {
+                console.error('搜尋過程中發生錯誤:', error);
+            });
         }
     </script>
 
-    <!-- 引入 Bootstrap  -->
+    <!-- Bootstrap 與依賴 -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

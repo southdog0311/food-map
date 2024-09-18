@@ -1,18 +1,36 @@
+from hitcount.views import HitCountMixin
+from django.views.generic import ListView
 from django.shortcuts import get_object_or_404, render
 from .models import Place, Tag, TagManagement
-from django.views.generic import ListView
 from django.http import JsonResponse
+from django.contrib.contenttypes.models import ContentType
+from hitcount.models import HitCount
 
-# 首頁，顯示所有餐廳和標籤
 def index(request):
+    # 獲取所有餐廳
     places = Place.objects.all()
-    tags = Tag.objects.all() 
-    return render(request, 'food/index.html', {'places': places, 'tags': tags})
+    places_with_hits = []
+    
+    for place in places:
+        content_type = ContentType.objects.get_for_model(Place)
+        hit_count, created = HitCount.objects.get_or_create(content_type=content_type, object_pk=place.id)
+        places_with_hits.append({
+            'place': place,
+            'hit_count': hit_count.hits
+        })
+    
+    # 總瀏覽人次（可選，根據需要計算）
+    total_hit_count = sum(hit['hit_count'] for hit in places_with_hits)
+    
+    return render(request, 'food/index.html', {
+        'places_with_hits': places_with_hits,
+        'total_hit_count': total_hit_count
+    })
 
-# 餐廳詳細頁面
 def place_detail(request, place_id):
     place = get_object_or_404(Place, pk=place_id)
     return render(request, 'food/place_detail.html', {'place': place})
+
 
 # 搜尋功能
 def search(request):

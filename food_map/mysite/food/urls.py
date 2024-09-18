@@ -15,4 +15,5 @@ urlpatterns = [
     path('api/places/', views.place_list, name='place_list'),
     path('api/places/<int:place_id>/', views.place_detail_api, name='place_detail_api'),
     path('api/', api.urls),  
+    path('hitcount/', include('hitcount.urls', namespace='hitcount')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
