@@ -11,6 +11,10 @@
             height: 200px; /* 固定高度 */
             object-fit: cover; /* 保持圖片比例並裁剪 */
         }
+        .no-results {
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -38,13 +42,34 @@
     <!-- 搜尋結果列表 -->
     <div class="container">
         <h2>搜尋結果</h2>
-        <div class="row">
+
+        <!-- 搜尋欄 -->
+        <form method="GET" action="{% url 'search' %}">
+            <div class="form-group">
+                <input type="text" class="form-control" name="query" placeholder="搜尋餐廳..." value="{{ query }}">
+            </div>
+            <div class="form-group">
+                <label for="tags">標籤篩選:</label><br>
+                {% for tag in tags %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="tags" value="{{ tag.id }}" 
+                        {% if tag.id|stringformat:"s" in request.GET.tags %} checked {% endif %}>
+                        <label class="form-check-label">{{ tag.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">搜尋</button>
+        </form>
+
+        <div class="row mt-4">
             {% if places %}
                 {% for place in places %}
                 <div class="col-md-4">
                     <div class="card mb-4">
                         {% if place.photo_url %}
                         <img src="{{ place.photo_url }}" class="card-img-top fixed-height-img" alt="{{ place.name }}">
+                        {% else %}
+                        <img src="{% static 'images/default-image.jpg' %}" class="card-img-top fixed-height-img" alt="預設圖片"> <!-- 添加預設圖片 -->
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title"><a href="{% url 'place_detail' place.pk %}">{{ place.name }}</a></h5>
@@ -57,16 +82,23 @@
                             <p class="card-text"><small class="text-muted">發佈日期: {{ place.pub_date }}</small></p>
                             <p class="card-text">
                                 標籤:
-                                {% for tag in place.tags.all %}
-                                    <span class="badge badge-primary">{{ tag.name }}</span>
-                                {% endfor %}
+                                {% if place.tags.all %}
+                                    {% for tag in place.tags.all %}
+                                        <span class="badge badge-primary">{{ tag.name }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="badge badge-secondary">無標籤</span>
+                                {% endif %}
                             </p>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-                <p>找不到符合條件的地點。</p>
+                <div class="no-results">
+                    <h4>找不到符合條件的地點。</h4>
+                    <p>請嘗試其他關鍵字或檢查篩選條件。</p>
+                </div>
             {% endif %}
         </div>
     </div>
